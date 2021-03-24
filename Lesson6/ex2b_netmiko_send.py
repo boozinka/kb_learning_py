@@ -11,21 +11,14 @@ from getpass import getpass
 # Input password and assign it to a varible
 password = getpass()
 
-# Create dicionary of parameter to feed into 'net_connect'
-my_device = {
-    'host': '192.168.152.100',
-    'username': 'bellw',
-    'password': password,
-    'secret': password,
-    'device_type': 'cisco_ios'
-}
-
+# Create a dicionary per device with parameters to feed into 'net_connect'
 cisco1 = {
     'host': '192.168.152.100',
     'username': 'bellw',
     'password': password,
     'secret': password,
-    'device_type': 'cisco_ios'
+    'device_type': 'cisco_ios',
+    'command': 'sh ip arp'
 }
 
 arista1 = {
@@ -33,7 +26,8 @@ arista1 = {
     'username': 'bellw',
     'password': password,
     'secret': password,
-    'device_type': 'arista_eos'
+    'device_type': 'arista_eos',
+    'command': 'sh ip arp'
 }
 
 fortigate1 = {
@@ -41,21 +35,16 @@ fortigate1 = {
     'username': 'bellw',
     'password': password,
     'secret': password,
-    'device_type': 'dummy_ios'
+    'device_type': 'fortinet',
+    'command': 'get system arp'
 }
 
-net_conn = Netmiko(**my_device)
-net_conn.send_command_timing('disable')
-print(net_conn.find_prompt())   # Returns prompt
-
-net_conn.enable()   # Automatically enter enable mode
-print(net_conn.find_prompt())
-
-output = net_conn.send_command('show ip interface brief')
-print(output)
-
+# loop through each dictionary
 for device in (cisco1, arista1, fortigate1):
+    command = device.pop('command')  # Pop command from dictionary before Netmiko and assign to varible
     net_conn = Netmiko(**device)
-    output = netconn.send_command('show ip arp', expect_string=r'#')
+    output = net_conn.send_command(command)
     print(output)
+
+net_conn.disconnect()
 
