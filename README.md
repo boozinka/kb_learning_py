@@ -469,4 +469,267 @@ This course covers basic python applied to Network Engineering and Automation
    - Set a breakpoint and run your code to the breakpoint.
    - Use '!command' to change a variable (for example !new_mac = [])
 
+------------------------------------------------------------------
+
+## Class6. Netmiko
+
+### Videos:
+
+ - [ ] I.    Netmiko Introduction and Basics
+ - [ ] II.   Netmiko Show Commands
+ - [ ] III.  Netmiko and Prompting
+ - [ ] IV.   Netmiko and TextFSM
+ - [ ] V.    Netmiko Config Changes
+ - [ ] VI.   Netmiko Troubleshooting
+ 
+### Exercises:
+
+***Note***, you will need some sort of a network device to work on these exercises. This can be a virtual or physical device. Make sure you are only working on test or lab devices.
+
+1. Using Netmiko, establish a connection to a network device and print out the device's prompt.
+
+2. Use send_command() to send a show command down the SSH channel. Retrieve the results and print the results to the screen.
+
+3. Find a command on your device that has additional prompting. Use send_command_timing to send the command down the SSH channel. Capture the output and handle the additional prompting.
+
+4. Use send_config_set() and send_config_from_file() to make configuration changes. 
+
+   The configuration changes should be benign. For example, on Cisco IOS I typically change the logging buffer size. 
+
+   As part of your program verify that the configuration change occurred properly. For example, use send_command() to execute 'show run' and verify the new configuration.
+
+
+5. Optional, use send_command() in conjunction with ntc-templates to execute a show command. Have TextFSM automatically convert this show command output to structured data.
+
+
+6. Optional, connect to three networking devices one after the other. Use send_command() to execute a show command on each of these devices. Print this output to the screen.
+
+------------------------------------------------------------------
+
+## Class7. Jinja2, YAML and JSON
+
+### Videos:
+
+ - [ ] I.    Jinja2 Basics
+ - [ ] II.   Jinja2 For-Loops and Conditionals
+ - [ ] III.  Jinja2 and CSV
+ - [ ] IV.   Jinja2 Dictionaries and Nested Loops
+ - [ ] V.    YAML Basics
+ - [ ] VI.   YAML Part2
+ - [ ] VII.  Using Python to Write YAML
+ - [ ] VIII. JSON
+ - [ ] IX.   Managing Data Structures
+ 
+### Exercises:
+
+1. Jinja2 Rendering, with Conditionals and For-Loops
+
+   a. Use Jinja2 templating to render the following:
+
+       vlan 
+          name 
+
+   Your template should be inside of your Python program for simplicity.
+
+   The output from processing your template should be as follows. This should be printed to stdout.
+
+       vlan 400
+          name red400
+
+   b. Using a conditional in a Jinja2 template, generate the following output:
+
+       crypto isakmp policy 10
+        encr aes
+        authentication pre-share
+        group 5
+       crypto isakmp key my_key address 1.1.1.1 no-xauth
+       crypto isakmp keepalive 10 periodic
+
+   The encryption of aes, and the Diffie-Hellman group should be variables in the template.
+
+   Additionally this entire ISAKMP section should only be added if the isakmp_enable variable is set to True.
+
+   Your template should be inside your Python program for simplicity.
+
+   c. Using Jinja2 templating and a for-loop inside the template, generate the following configuration snippet:
+
+       vlan 501
+          name blue501
+       vlan 502
+          name blue502
+       vlan 503
+          name blue503
+       vlan 504
+          name blue504
+       vlan 505
+          name blue505
+       vlan 506
+          name blue506
+       vlan 507
+          name blue507
+       vlan 508
+          name blue508
+
+   Your template should be inside your Python program for simplicity.
+
+   It is fine for your VLAN IDs to be out of order in the generated configuration (for example, VLAN ID 508 can come before VLAN ID 504).
+
+2. Using Python and Jinja2 templating generate the following OSPF configuration:
+
+       interface vlan 1
+          ip ospf priority 100
+
+       router ospf 10
+          passive-interface default
+          no passive-interface Vlan1
+          no passive-interface Vlan2
+          network 10.10.10.0/24 area 0.0.0.0
+          network 10.10.20.0/24 area 0.0.0.0
+          network 10.10.30.0/24 area 0.0.0.0
+          max-lsa 12000
+
+   The following items should be variables in your Jinja2 template:
+
+​   ospf_process_id
+   ospf_priority
+   ospf_active_interfaces (i.e. the non-passive interfaces)
+   ospf_area0_networks (the three networks that are specified as belonging to area0)
+
+   Your template should be in an external file.
+
+   Your template should also use a conditional to control whether this is output or not:
+
+       interface vlan 1
+          ip ospf priority 100
+
+   If the 'ospf_priority variable is defined', then include that section. If 'ospf_priority' is not defined then only include the 'router ospf 10' section.
+
+3. YAML File Data Structures
+
+   a. Create a YAML file that defines a list of interface names. Use the expanded form of YAML.
+
+   Use a Python script to read in this YAML list and print it to the screen.
+
+   The output of your Python script should be:
+
+       ['Ethernet1', 'Ethernet2', 'Ethernet3', 'Ethernet4', 'Ethernet5', 'Ethernet6', 'Ethernet7', 'Management1', 'Vlan1']
+
+   b. Expand the data structure defined earlier in exercise3a. This time you should have an 'interfaces' key that refers to a dictionary.
+
+   Use Python to read in this YAML data structure and print this to the screen.
+
+   The output of your Python script should look as follows (in other words, your YAML data structure should yield the following when read by Python). You YAML data structure should be written in expanded YAML format.
+
+       {'interfaces': {
+           'Ethernet1': {'mode': 'access', 'vlan': 10},
+           'Ethernet2': {'mode': 'access', 'vlan': 20},
+           'Ethernet3': {'mode': 'trunk',
+                         'native_vlan': 1,
+                         'trunk_vlans': 'all'}
+           }
+       }
+
+4. Take the YAML file and corresponding data structure that you defined in exercise3b:
+
+       {'interfaces': {
+           'Ethernet1': {'mode': 'access', 'vlan': 10},
+           'Ethernet2': {'mode': 'access', 'vlan': 20},
+           'Ethernet3': {'mode': 'trunk',
+                         'native_vlan': 1,
+                         'trunk_vlans': 'all'}
+           }
+       }
+
+   From this YAML data input source, use Jinja templating to generate the following configuration output:
+
+       interface Ethernet1
+         switchport mode access
+         switchport access vlan 10
+       interface Ethernet2
+         switchport mode access
+         switchport access vlan 20
+       interface Ethernet3
+         switchport mode trunk
+         switchport trunk native vlan 1
+         switchport trunk allowed vlan all
+
+   The following should all be variables in your Jinja template (the names may be different than below, but they should be variabilized and not be hard-coded in your template).
+
+   interface_name
+   switchport_mode
+   access_vlan
+   native_vlan
+   trunk_vlans
+
+   All your Jinja2 variables should be retrieved from your YAML file. 
+
+   This exercise might be challenging.
+
+------------------------------------------------------------------
+
+## Class8. Libraries, PIP, and Virtual Environments
+
+### Videos:
+
+ - [ ] I.    Importing Libraries
+ - [ ] II.   sys.path and PYTHONPATH
+ - [ ] III.  pip
+ - [ ] IV.   Virtual Environments
+ - [ ] V.    Creating a Simple Python Module
+ 
+### Exercises:
+
+1. Importing Modules and the PYHONPATH environment varible
+
+   a. Importing Modules
+   
+   Import the 'datetime' library. Print out the module that is being imported by datetime (the  `__file__` attribute)
+
+   Import the Python ipaddress library. Print out the module that is being imported by ipaddress (the  `__file__` attribute). If you are using Python 2.7, you will need to pip install the ipaddress library.
+
+   Import sys and use pprint to pprint sys.path
+
+   b. In a separate Python file named 'my_devices.py', define a dictionary named 'rtr1' with the following key-value pairs:
+
+       host = rtr1.domain.com
+       username = cisco
+       password = cisco123
+       device_type = cisco_ios
+
+   Import my_devices into this program, and print the rtr1 dictionary to the screen using pprint.
+
+   c. In a Python shell, try importing the 'my_devices' when my_devices.py is not in your current working directory.
+
+   What exception do you get when you do this?
+
+   Update your PYTHONPATH environment variable so that you are successfully able to import this module.
+
+
+2. Virtual Environments
+
+   a. Create a new virtual environment on your system named 'test_venv'.
+   b. Activate the virtual environment
+   c. Use 'which python' to see the path of the Python that you are using.
+   d. Use 'pip list' to see the packages you have installed.
+   e. Use pip to install Netmiko and the requests library.
+   f. Use 'pip list' to see the updated list of installed packages.
+
+3. Pip install
+
+   a. Using the same 'test_venv' that you created in exercise2, install netmiko version 2.0.1. Verify that this version is installed by executing the following from the Python shell:
+
+       >>> import netmiko
+       >>> netmiko.__version__
+       '2.0.1'
+
+   b. Using pip, upgrade your version of Netmiko to the latest version.
+   c. Deactivate your virtual environment. See 'which python' is now being used.
+
+4. Pip uninstall
+
+   a. Activate your 'test_venv' virtual environment.
+   b. Use pip to uninstall the Netmiko library.
+   c. Verify that Netmiko is no longer installed.
+   d. Use pip to install the 'develop' branch of Netmiko.
+
 
