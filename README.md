@@ -231,12 +231,12 @@ This course covers basic python applied to Network Engineering and Automation
    - Using a loop and os.system("ping -c 3 10.10.100.3") try pinging all of the IP addresses in this short list. For Windows the command will probably be os.system("ping -n 3 10.10.100.3").
    - Put a variable at the top to define whether you are using Windows or Linux/MacOs. This should be similar to the following:
 
-       WINDOWS = False
-
-       base_cmd_linux = 'ping -c 2'
-       base_cmd_windows = 'ping -n 2'
-       # Ternary operator
-       base_cmd = base_cmd_windows if WINDOWS else base_cmd_linux
+           WINDOWS = False
+           
+           base_cmd_linux = 'ping -c 2'
+           base_cmd_windows = 'ping -n 2'
+           # Ternary operator
+           base_cmd = base_cmd_windows if WINDOWS else base_cmd_linux
 
 ------------------------------------------------------------------
 
