@@ -590,10 +590,10 @@ This course covers basic python applied to Network Engineering and Automation
 
    The following items should be variables in your Jinja2 template:
 
-​   ospf_process_id
-   ospf_priority
-   ospf_active_interfaces (i.e. the non-passive interfaces)
-   ospf_area0_networks (the three networks that are specified as belonging to area0)
+       ospf_process_id
+       ospf_priority
+       ospf_active_interfaces (i.e. the non-passive interfaces)
+       ospf_area0_networks (the three networks that are specified as belonging to area0)
 
    Your template should be in an external file.
 
