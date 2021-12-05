@@ -151,4 +151,172 @@ This course covers basic python applied to Network Engineering and Automation
    - From the last line use the string .split() method to obtain the BGP peer IP address.
    - Print both local AS number and the BGP peer IP address to the screen.
 
+------------------------------------------------------------------
+
+## Class3. Conditionals and Loops
+
+### Videos:
+
+ - [ ] I.    Conditionals
+ - [ ] II.   Boolean Logic (Booleans, Ternary Operator, None)
+ - [ ] III.  Python For Loops
+ - [ ] IV.   For Loops (Enumerate)
+ - [ ] V.    For Loops (Break and Continue)
+ - [ ] VI.   While Loops
+ - [ ] VII.  Loops Miscillaneous
+
+### Exercises:
+
+1. Read the "show_vlan.txt" file into your program. Loop through the lines in this file and extract all of the VLAN_ID, VLAN_NAME combinations. From these VLAN_ID and VLAN_NAME construct a new list where each element in the list is a tuple consisting of (VLAN_ID, VLAN_NAME). Print this data structure to the screen. Your output should look as follows:
+
+       [('1', 'default'),
+        ('400', 'blue400'),
+        ('401', 'blue401'),
+        ('402', 'blue402'),
+        ('403', 'blue403')]
+
+
+2. Read the contents of the "show_arp.txt" file. Using a for loop, iterate over the lines of this file. Process the lines of the file and separate out the ip_addr and mac_addr for each entry into a separate variable.
+
+   - Add a conditional statement that searches for '10.220.88.1'. If 10.220.88.1 is found, print out the string "Default gateway IP/Mac" and the corresponding IP address and MAC Address.
+   - Using a conditional statement, also search for '10.220.88.30'. If this IP address is found, then print out "Arista3 IP/Mac is" and the corresponding ip_addr and mac_addr.
+   - Keep track of whether you have found both the Default Gateway and the Arista3 switch. Once you have found both of these devices, 'break' out of the for loop.
+
+
+3.  Read the 'show_lldp_neighbors_detail.txt' file. Loop over the lines of this file. Keep reading the lines until you have encountered the remote "System Name" and remote "Port id". Save these two items into variables and print them to the screen. You should extract only the system name and port id from the lines (i.e. your variables should only have 'twb-sf-hpsw1' and '15'). Break out of your loop once you have retrieved these two items.
+
+
+4. You have the following data structure:
+
+       arp_table = [('10.220.88.1', '0062.ec29.70fe'),
+        ('10.220.88.20', 'c89c.1dea.0eb6'),
+        ('10.220.88.21', '1c6a.7aaf.576c'),
+        ('10.220.88.28', '5254.aba8.9aea'),
+        ('10.220.88.29', '5254.abbe.5b7b'),
+        ('10.220.88.30', '5254.ab71.e119'),
+        ('10.220.88.32', '5254.abc7.26aa'),
+        ('10.220.88.33', '5254.ab3a.8d26'),
+        ('10.220.88.35', '5254.abfb.af12'),
+        ('10.220.88.37', '0001.00ff.0001'),
+        ('10.220.88.38', '0002.00ff.0001'),
+        ('10.220.88.39', '6464.9be8.08c8'),
+        ('10.220.88.40', '001c.c4bf.826a'),
+        ('10.220.88.41', '001b.7873.5634')]
+
+   Loop over this data structure and extract all of the MAC addresses. Process all of the MAC addresses to get them into a standard format. Print all of the new standardized MAC address to the screen. The standardized format should be as follows:
+
+       00:62:EC:29:70:FE
+
+   The hex digits should be capitalized. Additionally, there should be a colon between each octet in the MAC address.
+
+5. [Optional/bonus]
+
+   ***Note***, to actually test this in your environment, change the test IP addresses to something in your environment that you can ping successfully. ***
+
+   - Construct a list of 254 IP addresses. The base IP address should be equal to '10.10.100.0' or '10.10.100.'.
+   - You should use the 'range' builtin to accomplish this.
+   - Your list should have all of the IP addresses from 10.10.100.1 to 10.10.100.254.
+   - Use Python's 'enumerate' to print out all of the IP addresses and their corresponding list index.
+
+   The output should look similar to the following:
+
+       0 ---> 10.10.100.1
+       1 ---> 10.10.100.2
+       2 ---> 10.10.100.3
+       3 ---> 10.10.100.4
+       4 ---> 10.10.100.5
+       ...
+
+   - Use a list slice to create a new list that goes from 10.10.100.3 to 10.10.100.6.
+   - Using a loop and os.system("ping -c 3 10.10.100.3") try pinging all of the IP addresses in this short list. For Windows the command will probably be os.system("ping -n 3 10.10.100.3").
+   - Put a variable at the top to define whether you are using Windows or Linux/MacOs. This should be similar to the following:
+
+       WINDOWS = False
+
+       base_cmd_linux = 'ping -c 2'
+       base_cmd_windows = 'ping -n 2'
+       # Ternary operator
+       base_cmd = base_cmd_windows if WINDOWS else base_cmd_linux
+
+------------------------------------------------------------------
+
+## Class4. Dictionaries, Exceptions, and Regular Expressions
+
+### Videos:
+
+ - [ ] I.    Dictionaries
+ - [ ] II.   Dictionary Methods
+ - [ ] III.  Sets
+ - [ ] IV.   Exceptions
+ - [ ] V.    Regular Expressions (Part1)
+ - [ ] VI.   Regular Expressions (Part2)
+ - [ ] VII.  Regular Expressions (Part3)
+ - [ ] VIII. Regular Expressions, Other Methods
+
+### Exercises:
+
+1. Create a dictionary representing a network device. The dictionary should have key-value pairs representing the 'ip_addr', 'vendor', 'username', and 'password' fields.
+
+   - Print out the 'ip_addr' key from the dictionary.
+   - If the 'vendor' key is 'cisco', then set the 'platform' to 'ios'. If the 'vendor' key is 'juniper', then set the 'platform' to 'junos'.
+   - Create a second dictionary named 'bgp_fields'. The 'bgp_fields' dictionary should have a keys for 'bgp_as', 'peer_as', and 'peer_ip'.
+   - Using the .update() method add all of the 'bgp_fields' dictionary key-value pairs to the network device dictionary.
+   - Using a for-loop, iterate over the dictionary and print out all of the dictionary keys.
+   - Using a single for-loop, iterate over the dictionary and print out all of the dictionary keys and values.
+
+2. Create three separate lists of IP addresses. The first list should be the IP addresses of the Houston data center routers, and it should have over ten RFC1918 IP addresses in it (including some duplicate IP addresses).
+
+   The second list should be the IP addresses of the Atlanta data center routers, and it should have at least eight RFC1918 IP addresses (including some addresses that overlap with the Houston data center).
+
+   The third list should be the IP addresses of the Chicago data center routers, and it should have at least eight RFC1918 IP addresses. The Chicago IP addresses should have some overlap with both the IP addresses in Houston and Atlanta.
+
+   Convert each of these three lists to a set.
+
+   - Using a set operation, find the IP addresses that are duplicated between Houston and Atlanta.
+   - Using set operations, find the IP addresses that are duplicated in all three sites.
+   - Using set operations, find the IP addresses that are entirely unique in Chicago.
+
+3. Read in the 'show_version.txt' file. From this file, use regular expressions to extract the OS version, serial number, and configuration register values.
+
+   Your output should look as follows:
+
+       OS Version: 15.4(2)T1
+       Serial Number: FTX0000038X
+       Config Register: 0x2102
+
+4. Using a named regular expression (?P<name>), extract the model from the below string:
+
+        show_version = '''
+        Cisco 881 (MPC8300) processor (revision 1.0) with 236544K/25600K bytes of memory.
+        Processor board ID FTX0000038X
+        
+        5 FastEthernet interfaces
+        1 Virtual Private Network (VPN) Module
+        256K bytes of non-volatile configuration memory.
+        126000K bytes of ATA CompactFlash (Read/Write)
+        '''
+
+   Note that, in this example, '881' is the relevant model. Your regular expression should not, however, include '881' in its search pattern since this number changes across devices.
+
+   Using a named regular expression, also extract the '236544K/25600K' memory string.
+
+   Once again, none of the actual digits of the memory on this device should be used in the regular expression search pattern.
+
+   Print both the model number and the memory string to the screen.
+
+5. Read the 'show_ipv6_intf.txt' file.
+
+   From this file, use Python regular expressions to extract the two IPv6 addresses.
+
+   The two relevant IPv6 addresses you need to extract are:
+
+       2001:11:2233::a1/24
+       2001:cc11:22bb:0:2ec2:60ff:fe4f:feb2/64
+
+   Try to use re.DOTALL flag as part of your search. Your search pattern should not include any of the literal characters in the IPv6 address.
+
+   From this, create a list of IPv6 addresses that includes only the above two addresses.
+
+   Print this list to the screen.
+
 
