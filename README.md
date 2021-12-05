@@ -15,7 +15,9 @@ This course covers basic python applied to Network Engineering and Automation
 
 ------------------------------------------------------------------
 
-### Class1. Why Python, the Shell, and Strings
+## Class1. Why Python, the Shell, and Strings
+
+### Videos:
 
  - [ ] I.    Introduction
  - [ ] II.   Why Learn Programing?
