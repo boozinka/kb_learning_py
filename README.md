@@ -1,6 +1,6 @@
-# Kirk Byers Learning Python Course
+# Python for Network Engineers - Fundamentals
 
-This course covers basic python applied to Network Engineering and Automation
+Covers basic python applied to Network Engineering and Automation
 
 ## Topics covered include:
 
